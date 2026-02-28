@@ -35,8 +35,8 @@ fn efi_main(_image_hangle: EfiHandle, efi_system_table: &EfiSystemTable) {
     //     *e = 0xffffff;
     // }
     let mut vram = init_vram(efi_system_table).expect("init_vram failed");
-    for y in 0..vram.height() {
-        for x in 0..vram.width() {
+    for y in 0..vram.height {
+        for x in 0..vram.width {
             if let Some(pixel) = vram.pixel_at_mut(x, y) {
                 *pixel = 0x00ff00;
             }
