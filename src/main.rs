@@ -5,7 +5,6 @@ use core::arch::asm;
 use core::cmp::min;
 use core::mem::offset_of;
 use core::mem::size_of;
-use core::ops::Index;
 use core::panic::PanicInfo;
 use core::ptr::null_mut;
 // use core::slice;
