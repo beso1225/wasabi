@@ -164,9 +164,11 @@ trait Bitmap {
     /// Returned pointer is valid as long as the given coordinates are valid.
     /// which means that passing is_in_*_range tests.
     unsafe fn unchecked_pixel_at_mut(&mut self, x: i64, y: i64) -> *mut u32 {
-        self.buf_mut()
-            .add(((y * self.pixels_per_line() + x) * self.bytes_per_pixel()) as usize)
-            as *mut u32
+        unsafe {
+            self.buf_mut()
+                .add(((y * self.pixels_per_line() + x) * self.bytes_per_pixel()) as usize)
+                as *mut u32
+        }
     }
     fn pixel_at_mut(&mut self, x: i64, y: i64) -> Option<&mut u32> {
         if self.is_in_x_range(x) && self.is_in_y_range(y) {
@@ -229,7 +231,9 @@ fn init_vram(efi_system_table: &EfiSystemTable) -> Result<VramBufferInfo> {
 ///
 /// (x, y) must be a valid point in the buf.
 unsafe fn unchecked_draw_point<T: Bitmap>(buf: &mut T, color: u32, x: i64, y: i64) {
-    *buf.unchecked_pixel_at_mut(x, y) = color;
+    unsafe {
+        *buf.unchecked_pixel_at_mut(x, y) = color;
+    }
 }
 
 fn draw_point<T: Bitmap>(buf: &mut T, color: u32, x: i64, y: i64) -> Result<()> {
