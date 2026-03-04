@@ -8,6 +8,8 @@ use core::writeln;
 use wasabi::graphics::Bitmap;
 use wasabi::graphics::draw_test_pattern;
 use wasabi::graphics::fill_rect;
+use wasabi::qemu::QemuExitCode;
+use wasabi::qemu::exit_qemu;
 use wasabi::uefi::EfiHandle;
 use wasabi::uefi::EfiMemoryType;
 use wasabi::uefi::EfiSystemTable;
@@ -19,7 +21,7 @@ use wasabi::x86::hlt;
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
-    loop {}
+    exit_qemu(QemuExitCode::Fail);
 }
 
 #[unsafe(no_mangle)]
