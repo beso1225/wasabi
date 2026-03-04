@@ -15,10 +15,7 @@ use wasabi::uefi::MemoryMapHolder;
 use wasabi::uefi::VramTextWriter;
 use wasabi::uefi::exit_from_efi_boot_services;
 use wasabi::uefi::init_vram;
-
-pub fn hlt() {
-    unsafe { asm!("hlt") }
-}
+use wasabi::x86::hlt;
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
