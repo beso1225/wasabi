@@ -5,18 +5,18 @@ use core::fmt::Write;
 use core::panic::PanicInfo;
 use core::writeln;
 
-use wasabi::graphics::Bitmap;
 use wasabi::graphics::draw_test_pattern;
 use wasabi::graphics::fill_rect;
-use wasabi::qemu::QemuExitCode;
+use wasabi::graphics::Bitmap;
 use wasabi::qemu::exit_qemu;
+use wasabi::qemu::QemuExitCode;
+use wasabi::uefi::exit_from_efi_boot_services;
+use wasabi::uefi::init_vram;
 use wasabi::uefi::EfiHandle;
 use wasabi::uefi::EfiMemoryType;
 use wasabi::uefi::EfiSystemTable;
 use wasabi::uefi::MemoryMapHolder;
 use wasabi::uefi::VramTextWriter;
-use wasabi::uefi::exit_from_efi_boot_services;
-use wasabi::uefi::init_vram;
 use wasabi::x86::hlt;
 
 #[panic_handler]
@@ -24,7 +24,7 @@ fn panic(_info: &PanicInfo) -> ! {
     exit_qemu(QemuExitCode::Fail);
 }
 
-#[unsafe(no_mangle)]
+#[no_mangle]
 fn efi_main(image_hangle: EfiHandle, efi_system_table: &EfiSystemTable) {
     let mut vram = init_vram(efi_system_table).expect("init_vram failed");
     let vw = vram.width();
