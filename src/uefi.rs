@@ -3,8 +3,8 @@ use core::mem::offset_of;
 use core::mem::size_of;
 use core::ptr::null_mut;
 
-use crate::graphics::Bitmap;
 use crate::graphics::draw_font_fg;
+use crate::graphics::Bitmap;
 use crate::result::Result;
 
 type EfiVoid = u8;
@@ -69,6 +69,9 @@ impl EfiMemoryDescriptor {
     }
     pub fn number_of_pages(&self) -> u64 {
         self.number_of_pages
+    }
+    pub fn physical_start(&self) -> u64 {
+        self.physical_start
     }
 }
 
