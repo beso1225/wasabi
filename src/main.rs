@@ -28,8 +28,6 @@ fn panic(_info: &PanicInfo) -> ! {
 
 #[no_mangle]
 fn efi_main(image_hangle: EfiHandle, efi_system_table: &EfiSystemTable) {
-    let mut sw = SerialPort::new_for_com1();
-    writeln!(sw, "Hello, via serial port").unwrap();
     let mut vram = init_vram(efi_system_table).expect("init_vram failed");
     let vw = vram.width();
     let vh = vram.height();
