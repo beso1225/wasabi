@@ -3,4 +3,5 @@ BdsDxe: loading Boot0002 "UEFI QEMU HARDDISK QM00001 " from PciRoot(0x0)/Pci(0x1
 BdsDxe: starting Boot0002 "UEFI QEMU HARDDISK QM00001 " from PciRoot(0x0)/Pci(0x1,0x1)/Ata(Primary,Master,0x0)
 Running 1 tests...
 [RUNNING] >>> wasabi::allocator::round_up_to_nearest_pow2_test
-PANIC during test: PanicInfo { payload: Any { .. }, message: Some(not implemented: cargo test should fail, right ...?), location: Location { file: "src/allocator.rs", line: 23, col: 5 }, can_unwind: true, force_no_backtrace: false }
+[PASS   ] <<< wasabi::allocator::round_up_to_nearest_pow2_test
+Complete 1 tests!
