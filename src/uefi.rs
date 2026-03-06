@@ -280,7 +280,7 @@ impl fmt::Write for VramTextWriter<'_> {
 }
 
 pub fn exit_from_efi_boot_services(
-    image_hangle: EfiHandle,
+    image_handle: EfiHandle,
     efi_system_table: &EfiSystemTable,
     memory_map: &mut MemoryMapHolder,
 ) {
@@ -288,7 +288,7 @@ pub fn exit_from_efi_boot_services(
         let status = efi_system_table.boot_services.get_memory_map(memory_map);
         assert_eq!(status, EfiStatus::Success);
         let status =
-            (efi_system_table.boot_services.exit_boot_services)(image_hangle, memory_map.map_key);
+            (efi_system_table.boot_services.exit_boot_services)(image_handle, memory_map.map_key);
         if status == EfiStatus::Success {
             break;
         }
