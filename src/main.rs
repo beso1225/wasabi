@@ -26,7 +26,7 @@ fn panic(_info: &PanicInfo) -> ! {
 }
 
 #[no_mangle]
-fn efi_main(image_hangle: EfiHandle, efi_system_table: &EfiSystemTable) {
+fn efi_main(image_handle: EfiHandle, efi_system_table: &EfiSystemTable) {
     let mut vram = init_vram(efi_system_table).expect("init_vram failed");
     let vw = vram.width();
     let vh = vram.height();
@@ -56,7 +56,7 @@ fn efi_main(image_hangle: EfiHandle, efi_system_table: &EfiSystemTable) {
         total_memory_pages, total_memory_size_mib
     )
     .unwrap();
-    exit_from_efi_boot_services(image_hangle, efi_system_table, &mut memory_map);
+    exit_from_efi_boot_services(image_handle, efi_system_table, &mut memory_map);
     writeln!(w, "Hello, Non-UEFI world!").unwrap();
     loop {
         hlt()
