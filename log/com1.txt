@@ -5,4 +5,11 @@ Running 5 tests...
 [RUNNING] >>> wasabi::allocator::round_up_to_nearest_pow2_test
 [PASS   ] <<< wasabi::allocator::round_up_to_nearest_pow2_test
 [RUNNING] >>> wasabi::allocator::test::allocated_objects_have_no_overlap
-PANIC during test: PanicInfo { payload: Any { .. }, message: Some(memory allocation of 272 bytes failed), location: Location { file: "/Users/yutarotakagi/.rustup/toolchains/nightly-2024-01-01-aarch64-apple-darwin/lib/rustlib/src/rust/library/alloc/src/alloc.rs", line: 418, col: 13 }, can_unwind: false, force_no_backtrace: false }
+[PASS   ] <<< wasabi::allocator::test::allocated_objects_have_no_overlap
+[RUNNING] >>> wasabi::allocator::test::malloc_align
+[PASS   ] <<< wasabi::allocator::test::malloc_align
+[RUNNING] >>> wasabi::allocator::test::malloc_align_random_order
+[PASS   ] <<< wasabi::allocator::test::malloc_align_random_order
+[RUNNING] >>> wasabi::allocator::test::malloc_iterate_free_and_alloc
+[PASS   ] <<< wasabi::allocator::test::malloc_iterate_free_and_alloc
+Complete 5 tests!
