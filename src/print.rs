@@ -13,3 +13,9 @@ macro_rules! print {
         ($crate::print::global_print(format_args!($($args)*)));
     };
 }
+
+#[macro_export]
+macro_rules! println {
+    () => ($crate::print!("\n"));
+        ($($args:tt)*) => ($crate::print!("{}\n", format_args!($($args)*)));
+}
