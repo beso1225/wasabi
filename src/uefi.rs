@@ -3,8 +3,8 @@ use core::mem::offset_of;
 use core::mem::size_of;
 use core::ptr::null_mut;
 
-use crate::graphics::Bitmap;
 use crate::graphics::draw_font_fg;
+use crate::graphics::Bitmap;
 use crate::result::Result;
 
 type EfiVoid = u8;
@@ -69,6 +69,9 @@ impl EfiMemoryDescriptor {
     }
     pub fn number_of_pages(&self) -> u64 {
         self.number_of_pages
+    }
+    pub fn physical_start(&self) -> u64 {
+        self.physical_start
     }
 }
 
@@ -277,7 +280,7 @@ impl fmt::Write for VramTextWriter<'_> {
 }
 
 pub fn exit_from_efi_boot_services(
-    image_hangle: EfiHandle,
+    image_handle: EfiHandle,
     efi_system_table: &EfiSystemTable,
     memory_map: &mut MemoryMapHolder,
 ) {
@@ -285,7 +288,7 @@ pub fn exit_from_efi_boot_services(
         let status = efi_system_table.boot_services.get_memory_map(memory_map);
         assert_eq!(status, EfiStatus::Success);
         let status =
-            (efi_system_table.boot_services.exit_boot_services)(image_hangle, memory_map.map_key);
+            (efi_system_table.boot_services.exit_boot_services)(image_handle, memory_map.map_key);
         if status == EfiStatus::Success {
             break;
         }
