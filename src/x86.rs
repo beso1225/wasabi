@@ -163,16 +163,15 @@ pub unsafe fn write_es(selector: u16) {
 /// Anything can happen if the CS given is invalid.
 pub unsafe fn write_cs(cs: u16) {
     // The MOV instruction CANNOT be used to load the CS register.
-    // Use far-jump(ljmp) instead
+    // Use far-jump(ljmp) instead.
     asm!(
-        "lea rax, [rip + 2f]", // Target address (label 1 below)
-        "push cx",             // Construct a far pointer on the stack
-        "push rax",
-        "ljmp [rsp]",
+	"lea rax, [rip + 2f]", // Target address (label 1 below)
+	"push cx", // Construct a far pointer on the stack
+	"push rax",
+	"ljmp [rsp]",
         "2:",
         "add rsp, 8 + 2", // Cleanup the far pointer on the stack
-        in("cx") cs
-    )
+                in("cx") cs)
 }
 
 /// # Safety
@@ -579,13 +578,13 @@ impl Idt {
     pub fn new(segment_selector: u16) -> Self {
         let mut entries = [IdtDescriptor::new(
             segment_selector,
-            1,
+            0,
             IdtAttr::IntGateDPL0,
             int_handler_unimplemented,
         ); 0x100];
         entries[3] = IdtDescriptor::new(
             segment_selector,
-            1,
+            0,
             // Set DPL=3 to allow user land to make this interrupt
             // (e.g. via int3 op)
             IdtAttr::IntGateDPL3,
@@ -593,31 +592,31 @@ impl Idt {
         );
         entries[6] = IdtDescriptor::new(
             segment_selector,
-            1,
+            0,
             IdtAttr::IntGateDPL0,
             interrupt_entrypoint6,
         );
         entries[8] = IdtDescriptor::new(
             segment_selector,
-            2,
+            0,
             IdtAttr::IntGateDPL0,
             interrupt_entrypoint8,
         );
         entries[13] = IdtDescriptor::new(
             segment_selector,
-            1,
+            0,
             IdtAttr::IntGateDPL0,
             interrupt_entrypoint13,
         );
         entries[14] = IdtDescriptor::new(
             segment_selector,
-            1,
+            0,
             IdtAttr::IntGateDPL0,
             interrupt_entrypoint14,
         );
         entries[32] = IdtDescriptor::new(
             segment_selector,
-            1,
+            0,
             IdtAttr::IntGateDPL0,
             interrupt_entrypoint32,
         );
