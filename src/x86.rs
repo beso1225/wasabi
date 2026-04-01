@@ -206,7 +206,7 @@ pub unsafe fn write_fs(selector: u16) {
 /// Anything can happen if the gicen selector is invalid.
 pub unsafe fn write_gs(selector: u16) {
     asm!(
-        "mov ss, ax",
+        "mov gs, ax",
         in("ax") selector
     )
 }
