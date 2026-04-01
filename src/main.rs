@@ -23,6 +23,8 @@ use wasabi::uefi::EfiSystemTable;
 use wasabi::uefi::VramTextWriter;
 use wasabi::warn;
 use wasabi::x86::hlt;
+use wasabi::x86::init_exceptions;
+use wasabi::x86::trigger_debug_interrupt;
 
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
@@ -65,13 +67,18 @@ fn efi_main(image_handle: EfiHandle, efi_system_table: &EfiSystemTable) {
     let cr3 = wasabi::x86::read_cr3();
     println!("cr3 = {:#p}", cr3);
     let t = Some(unsafe { &*cr3 });
-    println!("{:?}", t);
+    // println!("{:?}", t);
+    //
     let t = t.and_then(|t| t.next_level(0));
-    println!("{:?}", t);
+    // println!("{:?}", t);
     let t = t.and_then(|t| t.next_level(0));
-    println!("{:?}", t);
+    // println!("{:?}", t);
     let t = t.and_then(|t| t.next_level(0));
-    println!("{:?}", t);
+    // println!("{:?}", t);
+
+    let (_gdt, _idt) = init_exceptions();
+    info!("Exception initialized!");
+    // trigger_debug_interrupt();
     loop {
         hlt()
     }
