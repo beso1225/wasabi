@@ -16,29 +16,28 @@ image_size: 0x0000000000067000
 00000040: 90 C6 D1 BE 00 00 00 00 18 B3 D8 BE 00 00 00 00 |................|
 00000050: F0 C0 D1 BE 00 00 00 00 98 EB 9E BF 00 00 00 00 |................|
 00000060: 40 01 ED BF 00 00 00 00                         |@.......|
-[INFO] src/x86.rs:682: TSS64 created @ 0x13FF7FE80
-[INFO] src/x86.rs:755: Loading GDT @ 0x000000013FF7FE20
-[INFO] src/x86.rs:762: Loading TSS ( selector = 0x18 )
-[INFO] src/x86.rs:629: Loading IDT: IdtrParameters { limit: 4096, base: 0x13ff7ee00 }
+[INFO] src/x86.rs:683: TSS64 created @ 0x13FF7FE80
+[INFO] src/x86.rs:756: Loading GDT @ 0x000000013FF7FE20
+[INFO] src/x86.rs:763: Loading TSS ( selector = 0x18 )
+[INFO] src/x86.rs:630: Loading IDT: IdtrParameters { limit: 4096, base: 0x13ff7ee00 }
 [INFO] src/main.rs:85 : Exception initialized!
 [ERROR] src/x86.rs:452: interrupt Info: 
         {
-            rip: 0x00000000BE350545, CS: 0x0008,
-            rsp: 0x00000000BFEB0AE0, SS: 0x0010,
-            rbp: 0x00000000BFEB0AE0,
+            rip: 0x00000000BE350715, CS: 0x0008,
+            rsp: 0x00000000BFEB0990, SS: 0x0010,
+            rbp: 0x00000000BFEB0990,
 
-            rflags:     0x0000000000000002,
+            rflags:     0x0000000000000006,
             error_code: 0x0000000000000000,
 
-            rax: 0x0000000000000000, rcx: 0x00000000BFEB0700,
-            rdx: 0x00000000BE36F230, rbx: 0x00000000BE4FD5C8,
+            rax: 0x0000000000000000, rcx: 0x00000000BFEB0600,
+            rdx: 0x00000000BE36F270, rbx: 0x00000000BE4FD5C8,
             rsi: 0x00000000BE64A018, rdi: 0x00000000BE64A018,
             r8:  0x0000000000000001, r9:  0x0000000000000004,
-            r10: 0x00000000BE37F0E8, r11: 0x0000000000000001,
+            r10: 0x00000000BE37F128, r11: 0x0000000000000001,
             r12: 0x0000000000000000, r13: 0x0000000000000000,
             r14: 0x00000000BE4FD518, r15: 0x0000000000000005,
         }
 [ERROR] src/x86.rs:453: Exeption 0x03: 
 [ERROR] src/x86.rs:456: Breakpoint
-[ERROR] src/main.rs:32 : PANIC: panicked at src/x86.rs:505:5:
-fatal exception
+[INFO] src/main.rs:87 : Execution continued.
