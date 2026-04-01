@@ -65,15 +65,15 @@ fn efi_main(image_handle: EfiHandle, efi_system_table: &EfiSystemTable) {
     .unwrap();
     writeln!(w, "Hello, Non-UEFI world!").unwrap();
     let cr3 = wasabi::x86::read_cr3();
-    println!("cr3 = {:#p}", cr3);
+    // println!("cr3 = {:#p}", cr3);
     let t = Some(unsafe { &*cr3 });
     // println!("{:?}", t);
-    //
+
+    let t = t.and_then(|t| t.next_level(0));
+
     let t = t.and_then(|t| t.next_level(0));
     // println!("{:?}", t);
-    let t = t.and_then(|t| t.next_level(0));
-    // println!("{:?}", t);
-    let t = t.and_then(|t| t.next_level(0));
+    let _t = t.and_then(|t| t.next_level(0));
     // println!("{:?}", t);
 
     let (_gdt, _idt) = init_exceptions();
