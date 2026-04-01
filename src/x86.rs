@@ -578,13 +578,13 @@ impl Idt {
     pub fn new(segment_selector: u16) -> Self {
         let mut entries = [IdtDescriptor::new(
             segment_selector,
-            0,
+            1,
             IdtAttr::IntGateDPL0,
             int_handler_unimplemented,
         ); 0x100];
         entries[3] = IdtDescriptor::new(
             segment_selector,
-            0,
+            1,
             // Set DPL=3 to allow user land to make this interrupt
             // (e.g. via int3 op)
             IdtAttr::IntGateDPL3,
@@ -592,31 +592,31 @@ impl Idt {
         );
         entries[6] = IdtDescriptor::new(
             segment_selector,
-            0,
+            1,
             IdtAttr::IntGateDPL0,
             interrupt_entrypoint6,
         );
         entries[8] = IdtDescriptor::new(
             segment_selector,
-            0,
+            2,
             IdtAttr::IntGateDPL0,
             interrupt_entrypoint8,
         );
         entries[13] = IdtDescriptor::new(
             segment_selector,
-            0,
+            1,
             IdtAttr::IntGateDPL0,
             interrupt_entrypoint13,
         );
         entries[14] = IdtDescriptor::new(
             segment_selector,
-            0,
+            1,
             IdtAttr::IntGateDPL0,
             interrupt_entrypoint14,
         );
         entries[32] = IdtDescriptor::new(
             segment_selector,
-            0,
+            1,
             IdtAttr::IntGateDPL0,
             interrupt_entrypoint32,
         );
@@ -818,7 +818,7 @@ impl TaskStateSegment64Descriptor {
             base_mid_low: ((base_addr >> 16) & 0xff) as u8,
             attr: 0b1000_0000_1000_1001,
             base_mid_high: ((base_addr >> 24) & 0xff) as u8,
-            base_high: ((base_addr << 32) & 0xffffffff) as u32,
+            base_high: ((base_addr >> 32) & 0xffffffff) as u32,
             reserved: 0,
         }
     }
