@@ -23,18 +23,18 @@ image_size: 0x000000000006B000
 [INFO] src/main.rs:86 : Exception initialized!
 [ERROR] src/x86.rs:525: interrupt Info: 
         {
-            rip: 0x00000000BE34A265, CS: 0x0008,
-            rsp: 0x00000000BFEB0850, SS: 0x0010,
-            rbp: 0x00000000BFEB0850,
+            rip: 0x00000000BE34A745, CS: 0x0008,
+            rsp: 0x00000000BFEB04C0, SS: 0x0010,
+            rbp: 0x00000000BFEB04C0,
 
             rflags:     0x0000000000000006,
             error_code: 0x0000000000000000,
 
-            rax: 0x0000000000000000, rcx: 0x00000000BFEB0500,
-            rdx: 0x00000000BE36A2C0, rbx: 0x00000000BE4FB5C8,
+            rax: 0x0000000000000000, rcx: 0x00000000BFEB0100,
+            rdx: 0x00000000BE36A350, rbx: 0x00000000BE4FB5C8,
             rsi: 0x00000000BE64A018, rdi: 0x00000000BE64A018,
             r8:  0x0000000000000001, r9:  0x0000000000000004,
-            r10: 0x00000000BE37AA68, r11: 0x0000000000000001,
+            r10: 0x00000000BE37AAF8, r11: 0x0000000000000001,
             r12: 0x0000000000000000, r13: 0x0000000000000000,
             r14: 0x00000000BE4FB518, r15: 0x0000000000000005,
         }
@@ -42,3 +42,5 @@ image_size: 0x000000000006B000
 [ERROR] src/x86.rs:529: Breakpoint
 [INFO] src/main.rs:88 : Execution continued.
 [INFO] src/main.rs:90 : Now we are using our own page tables!
+[INFO] src/main.rs:92 : Reading from memory address 0...
+[INFO] src/main.rs:97 : value_at_zero: 0
