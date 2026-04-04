@@ -24,9 +24,12 @@ use wasabi::uefi::EfiMemoryType;
 use wasabi::uefi::EfiSystemTable;
 use wasabi::uefi::VramTextWriter;
 use wasabi::warn;
+use wasabi::x86::flush_tlb;
 use wasabi::x86::hlt;
 use wasabi::x86::init_exceptions;
+use wasabi::x86::read_cr3;
 use wasabi::x86::trigger_debug_interrupt;
+use wasabi::x86::PageAttr;
 
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
@@ -95,6 +98,20 @@ fn efi_main(image_handle: EfiHandle, efi_system_table: &EfiSystemTable) {
     #[allow(deref_nullptr)]
     let value_at_zero = unsafe { *(0 as *const u8) };
     info!("value_at_zero: {}", value_at_zero);
+    let page_table = read_cr3();
+    unsafe {
+        (*page_table)
+            .create_mapping(0, 4096, 0, PageAttr::NotPresent)
+            .expect("Failed to unmap page 0");
+    }
+    flush_tlb();
+
+    info!("Reading from memory address 0... (again)");
+    #[allow(clippy::zero_ptr)]
+    #[allow(deref_nullptr)]
+    let value_at_zero = unsafe { *(0 as *const u8) };
+    info!("value_at_zero: {}", value_at_zero);
+
     loop {
         hlt()
     }
