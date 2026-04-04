@@ -10,7 +10,7 @@ pub fn global_print(args: fmt::Arguments) {
 #[macro_export]
 macro_rules! print {
     ($($arg:tt)*) => {
-        ($crate::print::global_print(format_args!($($arg)*)));
+        ($crate::print::global_print(format_args!($($arg)*)))
     };
 }
 
