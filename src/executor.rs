@@ -7,6 +7,7 @@ use core::{
     panic::Location,
     pin::Pin,
     ptr::null,
+    sync::atomic::{AtomicBool, Ordering},
     task::{Context, Poll, RawWaker, RawWakerVTable, Waker},
 };
 
@@ -102,4 +103,22 @@ impl Default for Executor {
     fn default() -> Self {
         Self::new()
     }
+}
+
+#[derive(Default)]
+pub struct Yield {
+    polled: AtomicBool,
+}
+impl Future for Yield {
+    type Output = ();
+    fn poll(self: Pin<&mut Self>, _: &mut Context<'_>) -> Poll<Self::Output> {
+        if self.polled.fetch_or(true, Ordering::SeqCst) {
+            Poll::Ready(())
+        } else {
+            Poll::Pending
+        }
+    }
+}
+pub async fn yield_execution() {
+    Yield::default().await
 }
