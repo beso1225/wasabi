@@ -13,6 +13,7 @@ use wasabi::executor::Task;
 use wasabi::graphics::draw_test_pattern;
 use wasabi::graphics::fill_rect;
 use wasabi::graphics::Bitmap;
+use wasabi::hpet::Hpet;
 use wasabi::info;
 use wasabi::init::init_basic_runtime;
 use wasabi::init::init_paging;
@@ -108,11 +109,12 @@ fn efi_main(image_handle: EfiHandle, efi_system_table: &EfiSystemTable) {
     let hpet = hpet
         .base_address()
         .expect("Failed to get HPET base address");
-    info!("HPET is at {:#018X}", hpet);
+    info!("HPET is at {:#p}", hpet);
+    let hpet = Hpet::new(hpet);
 
     let task1 = Task::new(async move {
         for i in 100..=103 {
-            info!("{}", i);
+            info!("{} hpet.main_counter = {}", i, hpet.main_counter());
             yield_execution().await;
         }
         Ok(())
