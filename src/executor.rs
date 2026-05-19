@@ -9,9 +9,10 @@ use core::{
     ptr::null,
     sync::atomic::{AtomicBool, Ordering},
     task::{Context, Poll, RawWaker, RawWakerVTable, Waker},
+    time::Duration,
 };
 
-use crate::{info, result::Result, x86::busy_loop_hint};
+use crate::{hpet::global_timestamp, info, result::Result, x86::busy_loop_hint};
 
 pub struct Task<T> {
     future: Pin<Box<dyn Future<Output = Result<T>>>>,
@@ -121,4 +122,25 @@ impl Future for Yield {
 }
 pub async fn yield_execution() {
     Yield::default().await
+}
+
+pub struct TimeoutFuture {
+    time_out: Duration,
+}
+impl TimeoutFuture {
+    pub fn new(duration: Duration) -> Self {
+        Self {
+            time_out: global_timestamp() + duration,
+        }
+    }
+}
+impl Future for TimeoutFuture {
+    type Output = ();
+    fn poll(self: Pin<&mut Self>, _: &mut Context<'_>) -> Poll<Self::Output> {
+        if self.time_out < global_timestamp() {
+            Poll::Ready(())
+        } else {
+            Poll::Pending
+        }
+    }
 }

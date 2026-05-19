@@ -1,4 +1,7 @@
 target/
+.envrc
+/.direnv
+
 third_party/ovmf/
 mnt/
 log/
