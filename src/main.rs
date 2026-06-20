@@ -1,19 +1,13 @@
 #![no_std]
 #![no_main]
 
-use core::fmt::Write;
 use core::panic::PanicInfo;
 use core::time::Duration;
-use core::writeln;
 
 use wasabi::error;
 use wasabi::executor::Executor;
 use wasabi::executor::Task;
 use wasabi::executor::TimeoutFuture;
-use wasabi::graphics::draw_test_pattern;
-use wasabi::graphics::fill_rect;
-use wasabi::graphics::Bitmap;
-use wasabi::graphics::BitmapTextWriter;
 use wasabi::hpet::global_timestamp;
 use wasabi::info;
 use wasabi::init::init_allocator;
@@ -30,13 +24,8 @@ use wasabi::uefi::init_vram;
 use wasabi::uefi::locate_loaded_image_protocol;
 use wasabi::uefi::EfiHandle;
 use wasabi::uefi::EfiSystemTable;
-use wasabi::uefi::VramTextWriter;
 use wasabi::warn;
-use wasabi::x86::flush_tlb;
 use wasabi::x86::init_exceptions;
-use wasabi::x86::read_cr3;
-use wasabi::x86::trigger_debug_interrupt;
-use wasabi::x86::PageAttr;
 
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
