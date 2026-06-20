@@ -2,7 +2,7 @@ use core::mem::size_of;
 
 use crate::{hpet::HpetRegisters, result::Result};
 
-#[repr(packed)]
+#[repr(C, packed)]
 #[derive(Clone, Copy, Debug)]
 struct SystemDescriptionTableHeader {
     // 5.2. ACPI System Description Tables
@@ -32,7 +32,7 @@ impl<'a> XsdtIterator<'a> {
         XsdtIterator { table, index: 0 }
     }
 }
-impl<'a> Iterator for XsdtIterator<'a> {
+impl Iterator for XsdtIterator<'_> {
     // The item will have a static lifetime since it will be allocated on ACPI_RECLAIM_MEMORY region.
     type Item = &'static SystemDescriptionTableHeader;
     fn next(&mut self) -> Option<Self::Item> {
@@ -47,7 +47,7 @@ impl<'a> Iterator for XsdtIterator<'a> {
     }
 }
 
-#[repr(packed)]
+#[repr(C, packed)]
 struct Xsdt {
     header: SystemDescriptionTableHeader,
 }
@@ -85,7 +85,7 @@ trait AcpiTable {
     }
 }
 
-#[repr(packed)]
+#[repr(C, packed)]
 pub struct GenericAddress {
     address_space_id: u8,
     _unused: [u8; 3],
@@ -103,7 +103,7 @@ impl GenericAddress {
     }
 }
 
-#[repr(packed)]
+#[repr(C, packed)]
 pub struct AcpiHpetDescriptor {
     _header: SystemDescriptionTableHeader,
     _reserved0: u32,

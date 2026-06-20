@@ -35,25 +35,25 @@ impl<'a, T> MutexGuard<'a, T> {
         }
     }
 }
-unsafe impl<'a, T> Sync for MutexGuard<'a, T> {}
-impl<'a, T> Deref for MutexGuard<'a, T> {
+unsafe impl<T> Sync for MutexGuard<'_, T> {}
+impl<T> Deref for MutexGuard<'_, T> {
     type Target = T;
 
     fn deref(&self) -> &Self::Target {
         self.data
     }
 }
-impl<'a, T> DerefMut for MutexGuard<'a, T> {
+impl<T> DerefMut for MutexGuard<'_, T> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.data
     }
 }
-impl<'a, T> Drop for MutexGuard<'a, T> {
+impl<T> Drop for MutexGuard<'_, T> {
     fn drop(&mut self) {
         self.mutex.is_taken.store(false, Ordering::SeqCst);
     }
 }
-impl<'a, T> Debug for MutexGuard<'a, T> {
+impl<T> Debug for MutexGuard<'_, T> {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "MutexGuard {{ location: {:?} }}", self.location)
     }
