@@ -9,7 +9,9 @@ use crate::{
     hpet::{set_global_hpet, Hpet},
     info,
     uefi::{
-        exit_from_efi_boot_services, EfiHandle, EfiMemoryType::*, EfiSystemTable, MemoryMapHolder,
+        exit_from_efi_boot_services, EfiHandle,
+        EfiMemoryType::{self, *},
+        EfiSystemTable, MemoryMapHolder,
     },
     x86::{write_cr3, PageAttr, PAGE_SIZE, PML4},
 };
@@ -54,4 +56,20 @@ pub fn init_hpet(acpi: &AcpiRsdpStruct) {
     info!("HPET found at {:#p}", hpet);
     let hpet = Hpet::new(hpet);
     set_global_hpet(hpet);
+}
+
+pub fn init_allocator(memory_map: &MemoryMapHolder) {
+    let mut total_memory_pages = 0;
+    for e in memory_map.iter() {
+        if e.memory_type() != EfiMemoryType::CONVENTIONAL_MEMORY {
+            continue;
+        }
+        total_memory_pages += e.number_of_pages();
+        info!("{:?}", e);
+    }
+    let total_memory_size_mib = total_memory_pages * 4096 / 1024 / 1024;
+    info!(
+        "Total: {} pages = {} MiB",
+        total_memory_pages, total_memory_size_mib
+    );
 }
