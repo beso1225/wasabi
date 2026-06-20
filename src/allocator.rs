@@ -36,7 +36,6 @@ fn round_up_to_nearest_pow2_test() {
 /// before: |--prev-------|----self-------------------
 /// align:  |--------|-------|-------|-------|-------|
 /// after:  |---------------||-------|----------------
-
 struct Header {
     next_header: Option<Box<Header>>,
     size: usize,
