@@ -6,12 +6,13 @@ use core::cmp::max;
 use crate::{
     acpi::AcpiRsdpStruct,
     allocator::ALLOCATOR,
+    graphics::{draw_test_pattern, fill_rect, Bitmap},
     hpet::{set_global_hpet, Hpet},
     info,
     uefi::{
         exit_from_efi_boot_services, EfiHandle,
         EfiMemoryType::{self, *},
-        EfiSystemTable, MemoryMapHolder,
+        EfiSystemTable, MemoryMapHolder, VramBufferInfo,
     },
     x86::{write_cr3, PageAttr, PAGE_SIZE, PML4},
 };
@@ -76,4 +77,11 @@ pub fn init_allocator(memory_map: &MemoryMapHolder) {
         "Total: {} pages = {} MiB",
         total_memory_pages, total_memory_size_mib
     );
+}
+
+pub fn init_display(vram: &mut VramBufferInfo) {
+    let vw = vram.width();
+    let vh = vram.height();
+    fill_rect(vram, 0x000000, 0, 0, vw, vh).expect("fill_rect failed");
+    draw_test_pattern(vram);
 }
