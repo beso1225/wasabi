@@ -70,7 +70,7 @@ impl SerialPort {
 }
 impl fmt::Write for SerialPort {
     fn write_str(&mut self, s: &str) -> fmt::Result {
-        let mut serial = Self::default();
+        let serial = Self::default();
         serial.send_str(s);
         Ok(())
     }
