@@ -9,6 +9,7 @@ use crate::{
     graphics::{draw_test_pattern, fill_rect, Bitmap},
     hpet::{set_global_hpet, Hpet},
     info,
+    pci::Pci,
     uefi::{
         exit_from_efi_boot_services, EfiHandle,
         EfiMemoryType::{self, *},
@@ -93,5 +94,7 @@ pub fn init_pci(acpi: &AcpiRsdpStruct) {
                 info!("{}", e)
             }
         }
+        let pci = Pci::new(mcfg);
+        pci.probe_devices();
     }
 }
